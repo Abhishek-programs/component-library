@@ -1,8 +1,11 @@
 import React from 'react';
-import styles from './styles.module.css';
+import labelStyles from './Label.module.css';
 
-export const Label = (props: React.LabelHTMLAttributes<HTMLLabelElement>) => {
+const Label = (props: React.LabelHTMLAttributes<HTMLLabelElement>) => {
   const { className, ...restProps } = props;
-  return <label className={`${className} ${styles.label}`} {...restProps} />;
+  return (
+    <label className={`${className} ${labelStyles.label}`} {...restProps} />
+  );
 };
 
+export default Label;

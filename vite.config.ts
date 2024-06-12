@@ -9,6 +9,11 @@ import { libInjectCss } from 'vite-plugin-lib-inject-css';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), libInjectCss(), dts({ include: ['lib'] })],
+  css: {
+    modules: {
+      generateScopedName: '[name]__[local]___[hash:base64:5]'
+    }
+  },
   build: {
     copyPublicDir: false,
     lib: {
@@ -16,7 +21,7 @@ export default defineConfig({
       formats: ['es']
     },
     rollupOptions: {
-      external: ['react', 'react/jsx-runtime'],
+      external: ['react', 'react/jsx-runtime', 'react-dom'],
       input: Object.fromEntries(
         glob
           .sync('lib/**/*.{ts,tsx}', {
@@ -32,8 +37,17 @@ export default defineConfig({
           ])
       ),
       output: {
-        assetFileNames: 'assets/[name][extname]',
-        entryFileNames: '[name].js'
+        assetFileNames: ({ name }) => {
+          if (name?.endsWith('.css')) {
+            return 'assets/[hash].module[extname]';
+          }
+          return 'assets/[name].[hash][extname]';
+        },
+        entryFileNames: '[name].js',
+        globals: {
+          react: 'React',
+          'react-dom': 'ReactDOM'
+        }
       }
     }
   }
