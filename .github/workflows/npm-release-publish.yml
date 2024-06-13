@@ -1,4 +1,4 @@
-name: Publish Package to npmjs
+name: Publish Package to npm js
 on:
   release:
     types: [released]
@@ -7,13 +7,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v4
         with:
           node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
       - run: yarn
-      - run: yarn version --new-version ${{ github.event.release.tag_name }}
+      - name: Upgrading the version
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          yarn version --new-version ${{ github.event.release.tag_name }}
+          git push
       - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
