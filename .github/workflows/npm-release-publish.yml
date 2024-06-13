@@ -19,6 +19,7 @@ jobs:
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
           yarn version --new-version ${{ github.event.release.tag_name }}
+          git remote set-url --push origin https://github.com/Abhishek-programs/component-library.git
           git push
       - run: yarn publish
         env:
