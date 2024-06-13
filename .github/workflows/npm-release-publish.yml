@@ -5,7 +5,7 @@ name: React Component Library
 
 on:
   release:
-    types: [published]
+    types: [released]
 
 jobs:
   publish-gpr:
