@@ -16,6 +16,8 @@ jobs:
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
           yarn version --new-version ${{ github.event.release.tag_name }}
           git push
       - run: yarn publish
