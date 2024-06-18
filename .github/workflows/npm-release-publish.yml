@@ -1,7 +1,13 @@
 name: Publish Package to npm js
 on:
-  release:
-    types: [released]
+  workflow_run:
+    workflows:
+      - "Release Created"
+    types: 
+      - completed
+    branches:
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
