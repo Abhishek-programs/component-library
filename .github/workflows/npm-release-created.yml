@@ -11,6 +11,11 @@ jobs:
         with:
           node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
+      - name: GitHub Commit & Push
+        uses: actions-js/push@v1.5
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
       - run: yarn
       - name: Upgrading the version
         env: 
@@ -19,8 +24,3 @@ jobs:
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
           yarn version --new-version ${{ github.event.release.tag_name }}
-      - name: GitHub Commit & Push
-        uses: actions-js/push@v1.5
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
