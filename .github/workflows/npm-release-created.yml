@@ -19,8 +19,4 @@ jobs:
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
           yarn version --new-version ${{ github.event.release.tag_name }}
-      - name: GitHub Commit & Push
-        uses: actions-js/push@v1.5
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
+          git push origin HEAD:main
